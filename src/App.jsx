@@ -13,12 +13,17 @@ function App() {
         
         {/* Sidebar */}
         <nav className="sidebar">
+          <h1>Environmental Dashboard</h1>
+          <hr style={{ width: "100%" }}/>
           <Link to="/">Home</Link>
           <Link to="/indoor">Indoor</Link>
           <Link to="/outdoor">Outdoor</Link>
           <Link to="/forecast">Forecast</Link>
           <Link to="/about">About</Link>
+
+          <button className="toggle-button" style={{ marginTop: "420px" }}>Mode</button>
         </nav>
+        
 
         {/* Main Content */}
         <div className="main-content">
