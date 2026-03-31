@@ -33,3 +33,14 @@
   padding: 20px;
   background: #f4f4f4;
 }
+
+/* Toggle button */
+.toggle-button {
+  padding: 10px;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: large;
+}
