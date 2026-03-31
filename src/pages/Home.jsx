@@ -8,11 +8,25 @@ function Home() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("https://localhost:7220/api/reports") 
-      .then(res => {console.log("RESPONSE:", res); return res.json();})
-      .then(data => {console.log("DATA:", data); setData(data);})
-      .catch(err => {console.log("ERROR:", err);});
-  }, []);
+  const fetchData = () => {
+    fetch("https://localhost:7220/api/reports")
+      .then(res => {
+        console.log("RESPONSE:", res);
+        return res.json();
+      })
+      .then(data => {
+        console.log("DATA:", data);
+        setData(data);
+      })
+      .catch(err => console.log("ERROR:", err));
+  };
+
+  fetchData(); // run once immediately
+
+  const interval = setInterval(fetchData, 5000); // 🔁 every 5 seconds
+
+  return () => clearInterval(interval); // cleanup when leaving page
+}, []);
 
   const latest = data.length > 0 ? data[data.length - 1] : null;
 
@@ -35,6 +49,7 @@ function Home() {
       .then(data => setWeather(data))
       .catch(err => console.error(err));
   }, []);
+
 
   return (
     <div className="dashboard">
