@@ -1,3 +1,4 @@
+/* Light Mode Default */
 .dashboard {
   display: grid;
   grid-template-columns: 1fr 1fr 2fr;
@@ -5,11 +6,27 @@
   gap: 20px;
   padding: 10px;
   height: calc(100vh - 60px);
-  background: #e7e8eb;
+  background: lightgray;
   border-radius: 20px;
   overflow-y: auto;
 }
 
+.page-content {
+  background: lightgray;
+  border-radius: 20px;
+  padding: 10px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+/* Dark Mode */
+.dark-mode .dashboard {
+  background: #333;
+}
+
+.dark-mode .page-content {
+  background: #333;
+}
 
 /* Small cards */
 .card.small {
@@ -64,12 +81,4 @@
 /* Hover effect */
 .card:hover {
   transform: scale(1.03);
-}
-
-.page-content {
-  background: rgb(194, 189, 189);
-  border-radius: 20px;
-  padding: 10px;
-  height: calc(100vh - 60px);
-  overflow-y: auto;
 }
