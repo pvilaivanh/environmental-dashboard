@@ -5,11 +5,19 @@ import OutdoorHistory from "./pages/OutdoorHistory";
 import Forecast from "./pages/Forecast";
 import About from "./pages/About";
 import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+
   return (
     <Router>
-      <div className="app">
+      <div className={`app ${darkMode ? "dark-mode" : ""}`}>
         
         {/* Sidebar */}
         <nav className="sidebar">
@@ -21,7 +29,9 @@ function App() {
           <Link to="/forecast">Forecast</Link>
           <Link to="/about">About</Link>
 
-          <button className="toggle-button" style={{ marginTop: "420px" }}>Mode</button>
+          <button className="toggle-button" style={{ marginTop: "400px" }} onClick={toggleDarkMode}>
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
         </nav>
         
 
