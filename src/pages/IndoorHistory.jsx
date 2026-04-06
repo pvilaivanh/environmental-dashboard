@@ -22,7 +22,7 @@ function IndoorHistory() {
             <tr>
               <th>Time</th>
               <th>Temp (°F)</th>
-              <th>Humidity</th>
+              <th>Humidity (%)</th>
             </tr>
           </thead>
           <tbody>
@@ -30,7 +30,7 @@ function IndoorHistory() {
               <tr key={index}>
                 <td>{new Date(item.Created).toLocaleString()}</td>
                 <td>{Math.round(item.Indoor.TemperatureF)}</td>
-                <td>{item.Indoor.Humidity}</td>
+                <td>{Math.round(item.Indoor.Humidity)}</td>
               </tr>
             ))}
           </tbody>

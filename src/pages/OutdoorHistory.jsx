@@ -22,7 +22,7 @@ function OutdoorHistory() {
             <tr>
               <th>Time</th>
               <th>Temp (°F)</th>
-              <th>Humidity</th>
+              <th>Humidity (%)</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -31,7 +31,7 @@ function OutdoorHistory() {
               <tr key={index}>
                 <td>{new Date(item.Created).toLocaleString()}</td>
                 <td>{Math.round(item.Outdoor.TemperatureF)}</td>
-                <td>{item.Outdoor.Humidity}</td>
+                <td>{Math.round(item.Outdoor.Humidity)}</td>
                 <td>{item.Outdoor.Description}</td>
               </tr>
             ))}
