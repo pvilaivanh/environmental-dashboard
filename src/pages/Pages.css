@@ -89,6 +89,7 @@
   height: 50%;
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 10px;
+  box-shadow: inset 0 0 10px #333;
 }
 
 .description {
@@ -129,12 +130,14 @@
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: black;
   text-align: center;
+  box-shadow: inset 0 0 10px #333;
 }
 
 .dark-mode .info-box {
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   text-align: center;
+  box-shadow: inset 0 0 10px #333;
 }
 
 .weather-icon {
@@ -172,50 +175,56 @@
   font-size: 40px;
 }
 
-.temperature-alert {
-  margin: 16px 0;
-  padding: 12px 16px;
-  border-radius: 10px;
-  text-align: left;
-  width: min(640px, 95%);
-}
-
-.temperature-alert h3 {
-  margin: 0 0 6px;
+.title {
   font-size: 18px;
-}
-
-.temperature-alert p {
-  margin: 0;
-  font-size: 15px;
-}
-
-.temperature-alert.warning {
-  background: #fff4cc;
-  border: 1px solid #f2c94c;
-  color: #7a5b00;
-}
-
-.temperature-alert.danger {
-  background: #fde8e8;
-  border: 1px solid #eb5757;
-  color: #8b1e1e;
-}
-
-.dark-mode .temperature-alert.warning {
-  background: #5a4500;
-  border-color: #f2c94c;
-  color: #fff0bf;
-}
-
-.dark-mode .temperature-alert.danger {
-  background: #5b1f1f;
-  border-color: #eb5757;
-  color: #ffd6d6;
-}
-
-.home-alert {
   margin-top: 10px;
-  font-size: 16px;
-  line-height: 1.4;
+}
+
+.about-us {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: inset 0 0 10px #333;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: inset 0 0 10px #333;
+}
+
+.technology-stack {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: inset 0 0 10px #333;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: inset 0 0 10px #333;
+}
+
+.disclaimer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: inset 0 0 10px #333;
 }
