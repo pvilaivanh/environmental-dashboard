@@ -29,7 +29,7 @@ function App() {
           <Link to="/forecast">Forecast</Link>
           <Link to="/about">About</Link>
 
-          <button className="toggle-button" style={{ marginTop: "380px" }} onClick={toggleDarkMode}>
+          <button className="toggle-button" onClick={toggleDarkMode}>
             {darkMode ? "Light Mode" : "Dark Mode"}
           </button>
         </nav>
