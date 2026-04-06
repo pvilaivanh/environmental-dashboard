@@ -21,7 +21,7 @@ function App() {
         
         {/* Sidebar */}
         <nav className="sidebar">
-          <h1>Environmental Dashboard</h1>
+          <h1>ENVIROMonitor 1000</h1>
           <hr style={{ width: "100%" }}/>
           <Link to="/">Home</Link>
           <Link to="/indoor">Indoor</Link>
@@ -29,7 +29,7 @@ function App() {
           <Link to="/forecast">Forecast</Link>
           <Link to="/about">About</Link>
 
-          <button className="toggle-button" style={{ marginTop: "400px" }} onClick={toggleDarkMode}>
+          <button className="toggle-button" style={{ marginTop: "380px" }} onClick={toggleDarkMode}>
             {darkMode ? "Light Mode" : "Dark Mode"}
           </button>
         </nav>
