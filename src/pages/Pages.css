@@ -2,7 +2,7 @@
 .dashboard {
   display: grid;
   grid-template-columns: 1fr 1fr 2fr;
-  grid-template-rows: 160px 160px 250px;
+  grid-template-rows: auto auto auto;
   gap: 20px;
   padding: 10px;
   height: calc(100vh - 60px);
@@ -37,6 +37,7 @@
   padding: 20px;
   color: white;
   font-weight: bold;
+  font-size: 30px;
 }
 
 /* Large cards */
@@ -45,6 +46,7 @@
   padding: 20px;
   color: white;
   cursor: pointer;
+  font-size: 30px;
 }
 
 /* Different colors */
@@ -81,10 +83,12 @@
 .forecast-container {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   height: 50%;
-  
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
 }
 
 .description {
@@ -122,13 +126,13 @@
   margin-top: 20px;
   padding: 15px;
   border-radius: 10px;
-  background: #b0b0b1;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: black;
   text-align: center;
 }
 
 .dark-mode .info-box {
-  background: #555;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   text-align: center;
 }
@@ -151,4 +155,67 @@
   display: flex;
   gap: 20px;
   font-size: 18px;
+}
+
+.forecast-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.forecast-info .info-box {
+  flex: 1 1 220px;
+  margin-top: 20px;
+}
+
+.value {
+  font-size: 40px;
+}
+
+.temperature-alert {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-align: left;
+  width: min(640px, 95%);
+}
+
+.temperature-alert h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.temperature-alert p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.temperature-alert.warning {
+  background: #fff4cc;
+  border: 1px solid #f2c94c;
+  color: #7a5b00;
+}
+
+.temperature-alert.danger {
+  background: #fde8e8;
+  border: 1px solid #eb5757;
+  color: #8b1e1e;
+}
+
+.dark-mode .temperature-alert.warning {
+  background: #5a4500;
+  border-color: #f2c94c;
+  color: #fff0bf;
+}
+
+.dark-mode .temperature-alert.danger {
+  background: #5b1f1f;
+  border-color: #eb5757;
+  color: #ffd6d6;
+}
+
+.home-alert {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.4;
 }
