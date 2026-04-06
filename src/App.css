@@ -27,7 +27,7 @@
 
 /* Hover effect */
 .sidebar a:hover {
-  background: #e0e0e0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
 /* Main content */
@@ -60,7 +60,7 @@
   color: #ddd;
 }
 .dark-mode .sidebar a:hover {
-  background: #222;
+  background: linear-gradient(135deg, #667eea, #764ba2);
 }
 .dark-mode .main-content {
   background: #333;
