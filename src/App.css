@@ -1,17 +1,20 @@
 .app {
   display: flex;
   height: 100vh;
+  background: rgb(68, 68, 68);
 }
 
 /* Sidebar */
 .sidebar {
-  width: 200px;
-  background: #d3d3d3;
+  width: 240px;
+  background: lightgray;
   color: black;
   display: flex;
   flex-direction: column;
   padding: 20px;
   gap: 15px;
+  border-radius: 20px;
+  margin: 5px;
 }
 
 /* Links */
@@ -19,19 +22,21 @@
   color: black;
   text-decoration: none;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 /* Hover effect */
 .sidebar a:hover {
-  background: #999;
+  background: #e0e0e0;
 }
 
 /* Main content */
 .main-content {
   flex: 1;
   padding: 20px;
-  background: #f4f4f4;
+  background: lightgray;
+  border-radius: 20px;
+  margin: 5px;
 }
 
 /* Toggle button */
@@ -39,7 +44,7 @@
   background: white;
   color: black;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: large;
 }
@@ -57,11 +62,10 @@
   background: #222;
 }
 .dark-mode .main-content {
-  background: #555;
+  background: #333;
   color: white;
 }
 .dark-mode .toggle-button {
   background: #555;
   color: white;
 }
-
