@@ -57,7 +57,7 @@ function Home() {
       {/* Indoor Temp */}
       <div className="display small indoor">
         <h3>Latest Indoor Temp</h3>
-        <p style={{ fontSize: "50px" }}>
+        <p className="home-temp">
           {latest && latest.Indoor
             ? `${Math.round(latest.Indoor.TemperatureF)}°F`
             : "Loading..."}
@@ -67,7 +67,7 @@ function Home() {
       {/* Outdoor Temp */}
       <div className="display small outdoor">
         <h3>Latest Outdoor Temp</h3>
-        <p style={{ fontSize: "50px" }}>
+        <p className="home-temp">
           {weather
             ? `${Math.round(weather.main.temp)}°F`
             : "Loading..."}
