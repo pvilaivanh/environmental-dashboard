@@ -1,13 +1,13 @@
 /* Light Mode Default */
 .dashboard {
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
-  grid-template-rows: auto auto auto;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: minmax(150px, auto);
   gap: 20px;
   padding: 10px;
-  height: calc(100vh - 60px);
+  min-height: 100%;
   border-radius: 20px;
-  overflow-y: auto;
+  overflow: visible;
 }
 
 .page-content {
@@ -37,7 +37,28 @@
   padding: 20px;
   color: white;
   font-weight: bold;
-  font-size: 30px;
+  font-size: clamp(1.2rem, 2vw, 1.875rem);
+}
+
+.dashboard .indoor,
+.dashboard .outdoor {
+  grid-column: span 3;
+}
+
+.dashboard .forecast {
+  grid-column: span 6;
+}
+
+.dashboard .indoor-history,
+.dashboard .outdoor-history,
+.dashboard .about {
+  grid-column: span 4;
+}
+
+.home-temp {
+  margin: 10px 0 0;
+  font-size: clamp(2rem, 7vw, 3.125rem);
+  line-height: 1;
 }
 
 /* Large cards */
@@ -61,22 +82,22 @@
 }
 
 .forecast {
-  background: linear-gradient(135deg, #fa709a, #fee140);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   box-shadow: inset 0 0 10px #333;
 }
 
 .indoor-history {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   box-shadow: inset 0 0 10px #333;
 }
 
 .outdoor-history {
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   box-shadow: inset 0 0 10px #333;
 }
 
 .about {
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   box-shadow: inset 0 0 10px #333;
 }
 
@@ -92,7 +113,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  height: 50%;
+  height: 60%;
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 10px;
   box-shadow: inset 0 0 10px #333;
@@ -233,4 +254,40 @@
   border-radius: 10px;
   padding: 20px;
   box-shadow: inset 0 0 10px #333;
+}
+
+@media (max-width: 1100px) {
+  .dashboard .indoor,
+  .dashboard .outdoor,
+  .dashboard .indoor-history,
+  .dashboard .outdoor-history,
+  .dashboard .about {
+    grid-column: span 6;
+  }
+
+  .dashboard .forecast {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 14px;
+    padding: 0;
+  }
+
+  .dashboard .indoor,
+  .dashboard .outdoor,
+  .dashboard .forecast,
+  .dashboard .indoor-history,
+  .dashboard .outdoor-history,
+  .dashboard .about {
+    grid-column: span 1;
+  }
+
+  .card.large,
+  .display {
+    padding: 16px;
+  }
 }
