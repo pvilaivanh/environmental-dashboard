@@ -38,8 +38,8 @@ function Home() {
 
   const [weather, setWeather] = useState(null);
 
-  const API_KEY = "YOUR_OPENWEATHERMAP_API_KEY";
-  const CITY = "CITY_NAME";
+  const API_KEY = "f7624dc4094ebbb713cf0d427bb80089";
+  const CITY = "Elizabethton";
 
   useEffect(() => {
     fetch(
