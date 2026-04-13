@@ -198,6 +198,80 @@
   margin-top: 20px;
 }
 
+/* History page styles */
+.history-card {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: inset 0 0 10px #333;
+  color: white;
+}
+
+.history-title {
+  margin: 0 0 16px;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+}
+
+.history-loading {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.history-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 620px;
+}
+
+.history-table th,
+.history-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e4e7f7;
+  color: #1f2442;
+}
+
+.history-table th {
+  background: #f2f4ff;
+  font-weight: 700;
+}
+
+.history-table tbody tr:nth-child(even) {
+  background: #f9faff;
+}
+
+.history-table tbody tr:hover {
+  background: #eef1ff;
+}
+
+.dark-mode .history-table-wrap {
+  background: #23273a;
+}
+
+.dark-mode .history-table th,
+.dark-mode .history-table td {
+  color: #e5e9ff;
+  border-bottom-color: #353d63;
+}
+
+.dark-mode .history-table th {
+  background: #2f375d;
+}
+
+.dark-mode .history-table tbody tr:nth-child(even) {
+  background: #262c47;
+}
+
+.dark-mode .history-table tbody tr:hover {
+  background: #31385c;
+}
+
 /* Login & Register Form Styles */
 .auth-container {
   display: flex;
