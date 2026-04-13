@@ -51,6 +51,15 @@
   margin-top: auto;
 }
 
+.logout-button {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: large;
+}
+
 /* Dark mode styles */
 .dark-mode .sidebar {
   background: #333;
@@ -95,3 +104,4 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
