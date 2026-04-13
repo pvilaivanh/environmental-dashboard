@@ -16,14 +16,12 @@ function App() {
     setDarkMode(!darkMode);
   };
 
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  )
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
-  }
+  };
 
   return (
     <>
@@ -37,14 +35,24 @@ function App() {
       ) : (
         <Router>
           <div className={`app ${darkMode ? "dark-mode" : ""}`}>
-            
             {/* Sidebar */}
             <nav className="sidebar">
               <h1>ENVIROMonitor 1000</h1>
-              <hr style={{ width: "100%" }}/>
+              <hr style={{ width: "100%" }} />
+              {user && (
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "#999",
+                    margin: "5px 0 10px 0",
+                  }}
+                >
+                  👤 Logged in as: <strong>{user.username}</strong>
+                </p>
+              )}
               <Link to="/">Home</Link>
-              <Link to="/indoor">Indoor</Link>
-              <Link to="/outdoor">Outdoor</Link>
+              <Link to="/indoor">Indoor History</Link>
+              <Link to="/outdoor">Outdoor History</Link>
               <Link to="/forecast">Forecast</Link>
               <Link to="/about">About</Link>
 
@@ -54,9 +62,7 @@ function App() {
               <button className="logout-button" onClick={handleLogout}>
                 Logout
               </button>
-
             </nav>
-            
 
             {/* Main Content */}
             <div className="main-content">
@@ -68,12 +74,10 @@ function App() {
                 <Route path="/about" element={<About />} />
               </Routes>
             </div>
-
           </div>
         </Router>
       )}
     </>
-
   );
 }
 
