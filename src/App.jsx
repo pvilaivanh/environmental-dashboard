@@ -83,12 +83,14 @@ function App() {
               <Link to="/forecast">Forecast</Link>
               <Link to="/about">About</Link>
 
-              <button className="toggle-button" onClick={toggleDarkMode}>
-                {darkMode ? "Light Mode" : "Dark Mode"}
-              </button>
-              <button className="logout-button" onClick={handleLogout}>
-                Logout
-              </button>
+              <div className="sidebar-actions">
+                <button className="toggle-button" onClick={toggleDarkMode}>
+                  {darkMode ? "Light Mode" : "Dark Mode"}
+                </button>
+                <button className="logout-button" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
             </nav>
 
             {/* Main Content */}
