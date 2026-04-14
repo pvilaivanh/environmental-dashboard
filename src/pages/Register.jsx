@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Pages.css";
 
-function Register() {
+function Register({ setUser }) {
   const [form, setForm] = useState({
     username: "",
     firstName: "",
@@ -39,6 +39,24 @@ function Register() {
 
     if (!res.ok) {
       alert("Registration failed");
+      return;
+    }
+
+    const startingLocation = form.startingLocation.trim();
+    if (startingLocation) {
+      localStorage.setItem("selectedCity", startingLocation);
+    }
+
+    let registeredUser = null;
+    try {
+      registeredUser = await res.json();
+    } catch {
+      registeredUser = null;
+    }
+
+    if (registeredUser?.username && setUser) {
+      localStorage.setItem("user", JSON.stringify(registeredUser));
+      setUser(registeredUser);
       return;
     }
 

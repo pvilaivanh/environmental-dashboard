@@ -29,6 +29,11 @@ function Login({ setUser }) {
 
     const data = await res.json();
 
+    const startingLocation = data?.startingLocation?.trim();
+    if (startingLocation) {
+      localStorage.setItem("selectedCity", startingLocation);
+    }
+
     localStorage.setItem("user", JSON.stringify(data));
     setUser(data);
   };

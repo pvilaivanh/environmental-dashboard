@@ -6,6 +6,10 @@ import Forecast from "./Forecast";
 function Home() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+  const preferredCity = localStorage.getItem("selectedCity");
+  const startingLocation = storedUser?.startingLocation?.trim();
+  const initialCity = preferredCity || startingLocation || "Elizabethton";
 
   useEffect(() => {
     const fetchData = () => {
@@ -42,14 +46,20 @@ function Home() {
   }
 
   const [weather, setWeather] = useState(null);
-  const [city, setCity] = useState("Elizabethton");
-  const [inputCity, setInputCity] = useState("Elizabethton");
+  const [city, setCity] = useState(initialCity);
+  const [inputCity, setInputCity] = useState(initialCity);
 
   const API_KEY = "f7624dc4094ebbb713cf0d427bb80089";
 
   useEffect(() => {
     fetchWeatherByCity(city);
   }, [city]);
+
+  useEffect(() => {
+    if (!preferredCity && startingLocation) {
+      localStorage.setItem("selectedCity", startingLocation);
+    }
+  }, [preferredCity, startingLocation]);
 
   const fetchWeatherByCity = (cityName) => {
     fetch(
@@ -62,7 +72,12 @@ function Home() {
 
   const handleCityChange = (e) => {
     e.preventDefault();
-    setCity(inputCity);
+    const nextCity = inputCity.trim();
+    if (!nextCity) return;
+
+    setCity(nextCity);
+    setInputCity(nextCity);
+    localStorage.setItem("selectedCity", nextCity);
   };
 
   return (

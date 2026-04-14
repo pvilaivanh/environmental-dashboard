@@ -20,6 +20,7 @@ function App() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("selectedCity");
     setUser(null);
   };
 
@@ -28,7 +29,7 @@ function App() {
       {!user ? (
         <Router>
           <Routes>
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Register setUser={setUser} />} />
             <Route path="/" element={<Login setUser={setUser} />} />
           </Routes>
         </Router>
