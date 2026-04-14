@@ -5,18 +5,27 @@ import OutdoorHistory from "./pages/OutdoorHistory";
 import Forecast from "./pages/Forecast";
 import About from "./pages/About";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -51,6 +60,23 @@ function App() {
                   👤 Logged in as: <strong>{user.username}</strong>
                 </p>
               )}
+              <p
+                style={{
+                  fontSize: "12px",
+                  color: darkMode ? "#c4cbf5" : "#4b578c",
+                  margin: "0 0 12px 0",
+                  lineHeight: 1.4,
+                }}
+              >
+                {currentDateTime.toLocaleDateString(undefined, {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                <br />
+                {currentDateTime.toLocaleTimeString()}
+              </p>
               <Link to="/">Home</Link>
               <Link to="/indoor">Indoor History</Link>
               <Link to="/outdoor">Outdoor History</Link>
