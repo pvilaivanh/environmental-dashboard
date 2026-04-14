@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./Pages.css";
 
 function Forecast() {
   const [weather, setWeather] = useState(null);
@@ -52,114 +53,99 @@ function Forecast() {
   }
 
   if (!weather) {
-    return <p style={{ padding: "20px" }}>Loading forecast...</p>;
+    return (
+      <div className="page-content forecast-page">
+        <div className="forecast-loading">Loading forecast...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="page-content">
-      <div style={{ padding: "15px", marginBottom: "15px" }}>
-        <form
-          onSubmit={handleCityChange}
-          style={{ display: "flex", gap: "10px" }}
-        >
+    <div className="page-content forecast-page">
+      <div className="forecast-search-wrap">
+        <form onSubmit={handleCityChange} className="forecast-search-form">
           <input
             type="text"
             value={inputCity}
             onChange={(e) => setInputCity(e.target.value)}
             placeholder="Enter city name"
-            style={{
-              padding: "8px 12px",
-              borderRadius: "8px",
-              border: "2px solid #667eea",
-              fontSize: "14px",
-              flex: 1,
-              maxWidth: "300px",
-            }}
+            className="forecast-search-input"
           />
-          <button
-            type="submit"
-            style={{
-              padding: "8px 16px",
-              background: "linear-gradient(135deg, #667eea, #764ba2)",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: "600",
-            }}
-          >
+          <button type="submit" className="forecast-search-btn">
             Search
           </button>
         </form>
       </div>
 
       <div className="forecast-container">
-        <h1>Today's Forecast</h1>
+        <div className="forecast-top-row">
+          <div>
+            <p className="forecast-kicker">Current Conditions</p>
+            <h1 className="forecast-heading">Today's Forecast</h1>
+            <h2 className="forecast-location">{weather.name}</h2>
+          </div>
 
-        <h2>{weather.name}</h2>
+          <div className="weather-icon">
+            <img
+              src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+              alt={weather.weather[0].description}
+            />
+          </div>
+        </div>
 
-        <h1 className="temp">{Math.round(weather.main.temp)}°F</h1>
-
-        <div className="weather-icon">
-          {/* weather icon */}
-          <img
-            src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
-            alt={weather.weather[0].description}
-          />
+        <div className="forecast-summary-row">
+          <h1 className="forecast-main-temp">
+            {Math.round(weather.main.temp)}°F
+          </h1>
           <p className="description">{weather.weather[0].description}</p>
         </div>
 
-        <div className="min-max">
-          <p>H: {Math.round(weather.main.temp_max)}°F</p>
-          <p>L: {Math.round(weather.main.temp_min)}°F</p>
+        <div className="forecast-chips">
+          <div className="forecast-chip">
+            <span>High</span>
+            <strong>{Math.round(weather.main.temp_max)}°F</strong>
+          </div>
+          <div className="forecast-chip">
+            <span>Low</span>
+            <strong>{Math.round(weather.main.temp_min)}°F</strong>
+          </div>
+          <div className="forecast-chip">
+            <span>Feels Like</span>
+            <strong>{Math.round(weather.main.feels_like)}°F</strong>
+          </div>
+          <div className="forecast-chip">
+            <span>Humidity</span>
+            <strong>{weather.main.humidity}%</strong>
+          </div>
         </div>
 
-        <div className="details">
-          <p>Feels like: {Math.round(weather.main.feels_like)}°F</p>
-          <p>Humidity: {weather.main.humidity}%</p>
-        </div>
-      </div>
+        <div className="forecast-info">
+          <div className="forecast-chip forecast-panel">
+            <h2>Suggestion</h2>
+            <p>{getSuggestion(weather.main.temp)}</p>
+          </div>
 
-      {/* Suggestions based on weather */}
-      <div className="forecast-info">
-        <div className="info-box">
-          <h2>Suggestion</h2>
-          <p>{getSuggestion(weather.main.temp)}</p>
-        </div>
+          <div className="forecast-chip forecast-panel">
+            <h2>Wind Speed</h2>
+            <p className="value">{Math.round(weather.wind.speed)} mph</p>
+          </div>
 
-        {/* Wind Speed */}
-        <div className="info-box">
-          <h2>Wind Speed</h2>
-          <p className="value">
-            {/* Placeholder for wind speed suggestion */}
-            {Math.round(weather.wind.speed)} mph.
-          </p>
-        </div>
+          <div className="forecast-chip forecast-panel">
+            <h2>Sunrise</h2>
+            <p>{new Date(weather.sys.sunrise * 1000).toLocaleTimeString()}</p>
 
-        {/* Sunrise/Sunset */}
-        <div className="info-box">
-          <h2>Sunrise</h2>
-          <p>
-            The sunrise is at{" "}
-            {new Date(weather.sys.sunrise * 1000).toLocaleTimeString()}.
-          </p>
+            <h2>Sunset</h2>
+            <p>{new Date(weather.sys.sunset * 1000).toLocaleTimeString()}</p>
+          </div>
 
-          <h2>Sunset</h2>
-          <p>
-            The sunset is at{" "}
-            {new Date(weather.sys.sunset * 1000).toLocaleTimeString()}.
-          </p>
-        </div>
-
-        {/* Precipitation in inches */}
-        <div className="info-box">
-          <h2>Precipitation</h2>
-          <p>
-            {weather.rain
-              ? `Rain volume in last 1 hour: ${weather.rain["1h"]} mm`
-              : "No precipitation in the last hour."}
-          </p>
+          <div className="forecast-chip forecast-panel">
+            <h2>Precipitation</h2>
+            <p>
+              {weather.rain
+                ? `Rain volume in last 1 hour: ${weather.rain["1h"]} mm`
+                : "No precipitation in the last hour."}
+            </p>
+          </div>
         </div>
       </div>
     </div>
