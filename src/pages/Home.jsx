@@ -154,9 +154,7 @@ function Home() {
           <p>{weather ? weather.weather[0].description : "Loading..."}</p>
 
           <p>
-            {latest && latest.Outdoor
-              ? getSuggestion(latest.Outdoor.TemperatureF)
-              : ""}
+            {weather && weather.main ? getSuggestion(weather.main.temp) : ""}
           </p>
         </div>
 

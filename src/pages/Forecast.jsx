@@ -40,6 +40,17 @@ function Forecast() {
     localStorage.setItem("selectedCity", nextCity);
   };
 
+  function getSuggestion(temp) {
+    if (temp < 32) return "Freezing! Wear heavy winter coat, gloves, and hat.";
+    if (temp < 50) return "Cold. Consider wearing a jacket and long sleeves.";
+    if (temp < 60) return "Chilly. A hoodie or light jacket recommended.";
+    if (temp < 70) return "Cool. Long sleeves or a light layer suggested.";
+    if (temp < 80) return "Pleasant! T-shirt weather.";
+    if (temp < 85) return "Warm. Light, breathable clothing recommended.";
+    if (temp < 95) return "Hot! Stay hydrated and wear light clothing.";
+    return "Very hot! Seek shade and drink plenty of water.";
+  }
+
   if (!weather) {
     return <p style={{ padding: "20px" }}>Loading forecast...</p>;
   }
@@ -110,16 +121,11 @@ function Forecast() {
         </div>
       </div>
 
+      {/* Suggestions based on weather */}
       <div className="forecast-info">
         <div className="info-box">
           <h2>Suggestion</h2>
-          <p>
-            {weather.main.temp < 60
-              ? "It's a bit chilly outside. Consider wearing a jacket!"
-              : weather.main.temp > 85
-                ? "It's quite hot outside. Stay hydrated and consider wearing light clothing!"
-                : "The weather looks pleasant. Enjoy your day!"}
-          </p>
+          <p>{getSuggestion(weather.main.temp)}</p>
         </div>
 
         {/* Wind Speed */}
