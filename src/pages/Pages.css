@@ -245,7 +245,7 @@
   width: 100%;
   border: none;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: transparent;
   color: #1f2442;
   padding: 10px 12px;
   display: flex;
@@ -257,7 +257,7 @@
 }
 
 .history-folder-btn:hover {
-  background: #ffffff;
+  background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
 .month-btn {
@@ -398,7 +398,7 @@
 }
 
 .dark-mode .history-folder-btn {
-  background: #2a3153;
+  background: transparent;
   color: #e5e9ff;
 }
 
