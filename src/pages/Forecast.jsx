@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Pages.css";
 
+const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+
 function Forecast() {
   const [weather, setWeather] = useState(null);
   const storedUser = JSON.parse(localStorage.getItem("user") || "null");
@@ -9,8 +11,6 @@ function Forecast() {
   const initialCity = preferredCity || startingLocation || "Elizabethton";
   const [city, setCity] = useState(initialCity);
   const [inputCity, setInputCity] = useState(initialCity);
-
-  const API_KEY = "f7624dc4094ebbb713cf0d427bb80089";
 
   useEffect(() => {
     fetchWeatherByCity(city);
@@ -23,8 +23,13 @@ function Forecast() {
   }, [preferredCity, startingLocation]);
 
   const fetchWeatherByCity = (cityName) => {
+    if (!WEATHER_API_KEY || !cityName) {
+      console.error("Missing VITE_OPENWEATHER_API_KEY environment variable.");
+      return;
+    }
+
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${API_KEY}`,
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${WEATHER_API_KEY}`,
     )
       .then((res) => res.json())
       .then((data) => setWeather(data))
