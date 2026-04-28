@@ -6,7 +6,7 @@ function Login({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
+  const handleLogin = async () => {
     const res = await fetch("https://localhost:7220/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,7 +44,7 @@ function Login({ setUser }) {
         className="auth-form"
         onSubmit={(e) => {
           e.preventDefault();
-          handleLogin(e);
+          handleLogin();
         }}
       >
         <h2>Login</h2>
