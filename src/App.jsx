@@ -9,16 +9,19 @@ import { useEffect, useState } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
+// App component manages routing, user authentication state, and global UI elements like dark mode and current date/time display
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [darkMode, setDarkMode] = useState(false); // State to track whether dark mode is enabled
+  const [currentDateTime, setCurrentDateTime] = useState(new Date()); // State to track the current date and time for display in the sidebar
 
+  // Function to toggle between dark mode and light mode, updates the darkMode state which triggers a re-render with the appropriate CSS class
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user"))); // State to track the currently logged-in user, initialized from localStorage to persist login across page refreshes
 
+  // useEffect hook to set up an interval that updates the currentDateTime state every second, ensuring the displayed date and time in the sidebar is always current  
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentDateTime(new Date());
@@ -27,6 +30,7 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
+  // Function to handle user logout, clears user data from localStorage and resets the user state to null, which will trigger the app to show the login/register routes instead of the main app content
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("selectedCity");

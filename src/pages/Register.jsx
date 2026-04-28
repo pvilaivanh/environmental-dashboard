@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Pages.css";
 
+// Register component handles user registration and sets the user state upon successful account creation
 function Register({ setUser }) {
   const [form, setForm] = useState({
     username: "",
@@ -14,6 +15,7 @@ function Register({ setUser }) {
     theme: "light",
   });
 
+  // Function to handle changes in the registration form inputs, updates the form state accordingly
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -21,6 +23,7 @@ function Register({ setUser }) {
     });
   };
 
+  // Function to handle registration form submission, sends user data to backend and updates user state on success
   const handleRegister = async () => {
     const res = await fetch("https://localhost:7220/api/auth/register", {
       method: "POST",
@@ -37,16 +40,21 @@ function Register({ setUser }) {
       }),
     });
 
+    // If registration fails, alert the user and exit the function
     if (!res.ok) {
       alert("Registration failed");
       return;
     }
 
+    // On successful registration, parse the response data, update localStorage and user state
     const startingLocation = form.startingLocation.trim();
+
+    // If the user has a starting location, set it as the preferred city in localStorage
     if (startingLocation) {
       localStorage.setItem("selectedCity", startingLocation);
     }
 
+    // Attempt to parse the registered user data from the response, handle any parsing errors gracefully
     let registeredUser = null;
     try {
       registeredUser = await res.json();
@@ -54,12 +62,14 @@ function Register({ setUser }) {
       registeredUser = null;
     }
 
+    // If the registered user data contains a username and the setUser function is available, update localStorage and user state to log in the new user immediately after registration
     if (registeredUser?.username && setUser) {
       localStorage.setItem("user", JSON.stringify(registeredUser));
       setUser(registeredUser);
       return;
     }
 
+    // If registration was successful but the response did not contain valid user data, alert the user that the account was created and they can now log in
     alert("Account created! You can now log in.");
   };
 

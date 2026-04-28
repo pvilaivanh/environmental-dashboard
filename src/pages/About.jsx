@@ -1,4 +1,5 @@
 
+// About page with information about the ENVIROMonitor 1000 project, team, and contact details.
 function About() {
   return (
     <div className="page-content">

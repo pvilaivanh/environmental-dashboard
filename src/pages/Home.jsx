@@ -3,16 +3,18 @@ import { useEffect, useState } from "react";
 import "./Pages.css";
 import Forecast from "./Forecast";
 
-const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY; // Get API key from environment variable
 
+// Home component displays latest indoor/outdoor temps, forecast, and navigation cards
 function Home() {
-  const navigate = useNavigate();
-  const [data, setData] = useState([]);
-  const storedUser = JSON.parse(localStorage.getItem("user") || "null");
-  const preferredCity = localStorage.getItem("selectedCity");
-  const startingLocation = storedUser?.startingLocation?.trim();
-  const initialCity = preferredCity || startingLocation || "Elizabethton";
+  const navigate = useNavigate(); // For programmatic navigation
+  const [data, setData] = useState([]); // Indoor/outdoor reports from backend
+  const storedUser = JSON.parse(localStorage.getItem("user") || "null"); // Get user data from localStorage
+  const preferredCity = localStorage.getItem("selectedCity"); // Get preferred city from localStorage
+  const startingLocation = storedUser?.startingLocation?.trim(); // Get starting location from user data  
+  const initialCity = preferredCity || startingLocation || "Elizabethton"; // Determine initial city for weather data
 
+  // Fetch indoor/outdoor data every 5 seconds
   useEffect(() => {
     const fetchData = () => {
       fetch("https://localhost:7220/api/reports")
@@ -34,8 +36,10 @@ function Home() {
     return () => clearInterval(interval); // cleanup when leaving page
   }, []);
 
+  // Get the latest report (last item in the array)
   const latest = data.length > 0 ? data[data.length - 1] : null;
 
+  // Function to get clothing suggestion based on temperature
   function getSuggestion(temp) {
     if (temp < 32) return "Freezing! Wear heavy winter coat, gloves, and hat.";
     if (temp < 50) return "Cold. Consider wearing a jacket and long sleeves.";
@@ -47,20 +51,23 @@ function Home() {
     return "Very hot! Seek shade and drink plenty of water.";
   }
 
-  const [weather, setWeather] = useState(null);
-  const [city, setCity] = useState(initialCity);
-  const [inputCity, setInputCity] = useState(initialCity);
+  const [weather, setWeather] = useState(null); // Weather data from OpenWeatherMap
+  const [city, setCity] = useState(initialCity); // City for weather data
+  const [inputCity, setInputCity] = useState(initialCity); // Controlled input for city search
 
+  // Fetch weather data when city changes
   useEffect(() => {
     fetchWeatherByCity(city);
   }, [city]);
 
+  // On initial load, if no preferred city but starting location exists, set it as preferred
   useEffect(() => {
     if (!preferredCity && startingLocation) {
       localStorage.setItem("selectedCity", startingLocation);
     }
   }, [preferredCity, startingLocation]);
 
+  // Function to fetch weather data from OpenWeatherMap API
   const fetchWeatherByCity = (cityName) => {
     if (!WEATHER_API_KEY || !cityName) {
       console.error("Missing VITE_OPENWEATHER_API_KEY environment variable.");
@@ -75,6 +82,7 @@ function Home() {
       .catch((err) => console.error("Weather fetch error:", err));
   };
 
+  // Handle city search form submission
   const handleCityChange = (e) => {
     e.preventDefault();
     const nextCity = inputCity.trim();

@@ -1,27 +1,31 @@
 import { useEffect, useState } from "react";
 import "./Pages.css";
 
-const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY; // Get API key from environment variable
 
+// Forecast component displays detailed weather forecast for a city with search functionality
 function Forecast() {
-  const [weather, setWeather] = useState(null);
-  const storedUser = JSON.parse(localStorage.getItem("user") || "null");
-  const preferredCity = localStorage.getItem("selectedCity");
-  const startingLocation = storedUser?.startingLocation?.trim();
-  const initialCity = preferredCity || startingLocation || "Elizabethton";
-  const [city, setCity] = useState(initialCity);
-  const [inputCity, setInputCity] = useState(initialCity);
+  const [weather, setWeather] = useState(null); // Weather data from OpenWeatherMap
+  const storedUser = JSON.parse(localStorage.getItem("user") || "null"); // Get user data from localStorage to determine preferred city and starting location
+  const preferredCity = localStorage.getItem("selectedCity"); // Get preferred city from localStorage, which may have been set during login or registration
+  const startingLocation = storedUser?.startingLocation?.trim(); // Get starting location from user data, trim whitespace to ensure clean city name
+  const initialCity = preferredCity || startingLocation || "Elizabethton"; // Determine initial city for weather data, prioritizing preferred city, then starting location, and defaulting to "Elizabethton" if neither is available
+  const [city, setCity] = useState(initialCity); // City for weather data, initialized to the determined initial city
+  const [inputCity, setInputCity] = useState(initialCity); // Controlled input for city search, initialized to the same initial city for consistency
 
+  // Fetch weather data when city changes, ensuring the displayed forecast is always up to date with the selected city
   useEffect(() => {
     fetchWeatherByCity(city);
   }, [city]);
 
+  // If there is no preferred city in localStorage but there is a starting location in the user data, set the starting location as the preferred city in localStorage. This ensures that the app will use the user's starting location for weather data if they haven't explicitly set a preferred city.
   useEffect(() => {
     if (!preferredCity && startingLocation) {
       localStorage.setItem("selectedCity", startingLocation);
     }
   }, [preferredCity, startingLocation]);
 
+  // Function to fetch weather data from OpenWeatherMap API based on the provided city name, updates the weather state with the fetched data
   const fetchWeatherByCity = (cityName) => {
     if (!WEATHER_API_KEY || !cityName) {
       console.error("Missing VITE_OPENWEATHER_API_KEY environment variable.");
@@ -36,6 +40,7 @@ function Forecast() {
       .catch((err) => console.error("Weather fetch error:", err));
   };
 
+  // Handle city search form submission, updates the city state and localStorage with the new city, which triggers a re-fetch of weather data for the new city
   const handleCityChange = (e) => {
     e.preventDefault();
     const nextCity = inputCity.trim();
@@ -46,6 +51,7 @@ function Forecast() {
     localStorage.setItem("selectedCity", nextCity);
   };
 
+  // Function to provide clothing and activity suggestions based on the current temperature, returns a string suggestion that can be displayed in the UI
   function getSuggestion(temp) {
     if (temp < 32) return "Freezing! Wear heavy winter coat, gloves, and hat.";
     if (temp < 50) return "Cold. Consider wearing a jacket and long sleeves.";
@@ -57,6 +63,7 @@ function Forecast() {
     return "Very hot! Seek shade and drink plenty of water.";
   }
 
+  // If weather data is not yet available (e.g., still loading), display a loading message to the user
   if (!weather) {
     return (
       <div className="page-content forecast-page">
