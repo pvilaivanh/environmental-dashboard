@@ -11,7 +11,7 @@ function Home() {
   const [data, setData] = useState([]); // Indoor/outdoor reports from backend
   const storedUser = JSON.parse(localStorage.getItem("user") || "null"); // Get user data from localStorage
   const preferredCity = localStorage.getItem("selectedCity"); // Get preferred city from localStorage
-  const startingLocation = storedUser?.startingLocation?.trim(); // Get starting location from user data  
+  const startingLocation = storedUser?.startingLocation?.trim(); // Get starting location from user data
   const initialCity = preferredCity || startingLocation || "Elizabethton"; // Determine initial city for weather data
 
   // Fetch indoor/outdoor data every 5 seconds
@@ -52,8 +52,15 @@ function Home() {
   }
 
   const [weather, setWeather] = useState(null); // Weather data from OpenWeatherMap
+  const [weatherError, setWeatherError] = useState(""); // User-facing weather error message
   const [city, setCity] = useState(initialCity); // City for weather data
   const [inputCity, setInputCity] = useState(initialCity); // Controlled input for city search
+  
+  // Determine if valid weather data is available, checks for the presence of main weather data, weather conditions array, wind data, and system data to ensure the forecast can be displayed properly
+  const hasWeatherData =
+    Boolean(weather?.main) &&
+    Array.isArray(weather?.weather) &&
+    weather.weather.length > 0;
 
   // Fetch weather data when city changes
   useEffect(() => {
@@ -71,15 +78,35 @@ function Home() {
   const fetchWeatherByCity = (cityName) => {
     if (!WEATHER_API_KEY || !cityName) {
       console.error("Missing VITE_OPENWEATHER_API_KEY environment variable.");
+      setWeather(null);
+      setWeatherError("Weather service is not configured.");
       return;
     }
 
+    // Fetch weather data for the specified city, handle errors and update state accordingly
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${WEATHER_API_KEY}`,
     )
       .then((res) => res.json())
-      .then((data) => setWeather(data))
-      .catch((err) => console.error("Weather fetch error:", err));
+      .then((data) => {
+        if (
+          Number(data?.cod) !== 200 ||
+          !data?.main ||
+          !data?.weather?.length
+        ) {
+          setWeather(null);
+          setWeatherError(data?.message || "City not found.");
+          return;
+        }
+
+        setWeather(data);
+        setWeatherError("");
+      })
+      .catch((err) => {
+        console.error("Weather fetch error:", err);
+        setWeather(null);
+        setWeatherError("Unable to fetch weather right now.");
+      });
   };
 
   // Handle city search form submission
@@ -130,6 +157,11 @@ function Home() {
             Search
           </button>
         </form>
+        {weatherError && (
+          <p style={{ marginTop: "8px", color: "#d93025", fontWeight: 600 }}>
+            {weatherError}
+          </p>
+        )}
       </div>
 
       <div className="dashboard">
@@ -147,7 +179,7 @@ function Home() {
         <div className="display small outdoor">
           <h3>Latest Outdoor Temp</h3>
           <p className="home-temp">
-            {weather ? `${Math.round(weather.main.temp)}°F` : "Loading..."}
+            {hasWeatherData ? `${Math.round(weather.main.temp)}°F` : "N/A"}
           </p>
         </div>
 
@@ -158,17 +190,19 @@ function Home() {
         >
           <h2>Today's Forecast</h2>
 
-          {weather && (
+          {hasWeatherData && (
             <p style={{ fontSize: "25px", opacity: 0.8, margin: "5px 0" }}>
               📍 {weather.name || "Your Location"}
             </p>
           )}
 
-          <p>{weather ? weather.weather[0].description : "Loading..."}</p>
-
           <p>
-            {weather && weather.main ? getSuggestion(weather.main.temp) : ""}
+            {hasWeatherData
+              ? weather.weather[0].description
+              : "No weather data"}
           </p>
+
+          <p>{hasWeatherData ? getSuggestion(weather.main.temp) : ""}</p>
         </div>
 
         {/* Indoor History */}

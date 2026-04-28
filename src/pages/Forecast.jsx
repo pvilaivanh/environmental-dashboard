@@ -6,12 +6,56 @@ const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY; // Get API key
 // Forecast component displays detailed weather forecast for a city with search functionality
 function Forecast() {
   const [weather, setWeather] = useState(null); // Weather data from OpenWeatherMap
+  const [weatherError, setWeatherError] = useState(""); // User-facing weather error message
   const storedUser = JSON.parse(localStorage.getItem("user") || "null"); // Get user data from localStorage to determine preferred city and starting location
   const preferredCity = localStorage.getItem("selectedCity"); // Get preferred city from localStorage, which may have been set during login or registration
   const startingLocation = storedUser?.startingLocation?.trim(); // Get starting location from user data, trim whitespace to ensure clean city name
   const initialCity = preferredCity || startingLocation || "Elizabethton"; // Determine initial city for weather data, prioritizing preferred city, then starting location, and defaulting to "Elizabethton" if neither is available
   const [city, setCity] = useState(initialCity); // City for weather data, initialized to the determined initial city
   const [inputCity, setInputCity] = useState(initialCity); // Controlled input for city search, initialized to the same initial city for consistency
+  
+  // Determine if valid weather data is available, checks for the presence of main weather data, weather conditions array, wind data, and system data to ensure the forecast can be displayed properly
+  const hasWeatherData =
+    Boolean(weather?.main) &&
+    Array.isArray(weather?.weather) &&
+    weather.weather.length > 0 &&
+    Boolean(weather?.wind) &&
+    Boolean(weather?.sys);
+
+  // Function to fetch weather data from OpenWeatherMap API based on the provided city name, updates the weather state with the fetched data
+  function fetchWeatherByCity(cityName) {
+    if (!WEATHER_API_KEY || !cityName) {
+      console.error("Missing VITE_OPENWEATHER_API_KEY environment variable.");
+      setWeather(null);
+      setWeatherError("Weather service is not configured.");
+      return;
+    }
+
+    // Fetch weather data for the specified city, handle errors and update state accordingly
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${WEATHER_API_KEY}`,
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (
+          Number(data?.cod) !== 200 ||
+          !data?.main ||
+          !data?.weather?.length
+        ) {
+          setWeather(null);
+          setWeatherError(data?.message || "City not found.");
+          return;
+        }
+
+        setWeather(data);
+        setWeatherError("");
+      })
+      .catch((err) => {
+        console.error("Weather fetch error:", err);
+        setWeather(null);
+        setWeatherError("Unable to fetch weather right now.");
+      });
+  }
 
   // Fetch weather data when city changes, ensuring the displayed forecast is always up to date with the selected city
   useEffect(() => {
@@ -24,21 +68,6 @@ function Forecast() {
       localStorage.setItem("selectedCity", startingLocation);
     }
   }, [preferredCity, startingLocation]);
-
-  // Function to fetch weather data from OpenWeatherMap API based on the provided city name, updates the weather state with the fetched data
-  const fetchWeatherByCity = (cityName) => {
-    if (!WEATHER_API_KEY || !cityName) {
-      console.error("Missing VITE_OPENWEATHER_API_KEY environment variable.");
-      return;
-    }
-
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${WEATHER_API_KEY}`,
-    )
-      .then((res) => res.json())
-      .then((data) => setWeather(data))
-      .catch((err) => console.error("Weather fetch error:", err));
-  };
 
   // Handle city search form submission, updates the city state and localStorage with the new city, which triggers a re-fetch of weather data for the new city
   const handleCityChange = (e) => {
@@ -63,11 +92,32 @@ function Forecast() {
     return "Very hot! Seek shade and drink plenty of water.";
   }
 
-  // If weather data is not yet available (e.g., still loading), display a loading message to the user
-  if (!weather) {
+  // If weather data is not yet available or invalid, keep search visible and show status/error text.
+  if (!hasWeatherData) {
     return (
       <div className="page-content forecast-page">
-        <div className="forecast-loading">Loading forecast...</div>
+        <div className="forecast-search-wrap">
+          <form onSubmit={handleCityChange} className="forecast-search-form">
+            <input
+              type="text"
+              value={inputCity}
+              onChange={(e) => setInputCity(e.target.value)}
+              placeholder="Enter city name"
+              className="forecast-search-input"
+            />
+            <button type="submit" className="forecast-search-btn">
+              Search
+            </button>
+          </form>
+          {weatherError && (
+            <p style={{ marginTop: "8px", color: "#d93025", fontWeight: 600 }}>
+              {weatherError}
+            </p>
+          )}
+        </div>
+        <div className="forecast-loading">
+          {weatherError || "Loading forecast..."}
+        </div>
       </div>
     );
   }
@@ -87,6 +137,11 @@ function Forecast() {
             Search
           </button>
         </form>
+        {weatherError && (
+          <p style={{ marginTop: "8px", color: "#d93025", fontWeight: 600 }}>
+            {weatherError}
+          </p>
+        )}
       </div>
 
       <div className="forecast-container">
